@@ -6,6 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		EE9254442EC2F861006ECDEB /* LeapChucker in Frameworks */ = {isa = PBXBuildFile; productRef = EE9254432EC2F861006ECDEB /* LeapChucker */; };
+		EEB8D8D52EC3003C007FBC3D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = EEB8D8D42EC3003C007FBC3D /* Lottie */; };
+		EED9F90F2D71A27B000D3406 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = EED9F90E2D71A27B000D3406 /* Alamofire */; };
+		EED9F9D42D7220C6000D3406 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = EED9F9D32D7220C6000D3406 /* Alamofire */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		EED9F8E72D71A071000D3406 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -23,15 +30,41 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		EE36117B2EC310B100C7834F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		EED9F8D62D71A06F000D3406 /* SpendiTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpendiTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EED9F8E62D71A071000D3406 /* SpendiTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpendiTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EED9F8F02D71A071000D3406 /* SpendiTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpendiTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		EE3611842EC32CF900C7834F /* Exceptions for "SpendiTracker" folder in "SpendiTracker" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = EED9F8D52D71A06F000D3406 /* SpendiTracker */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		EED9F8D82D71A06F000D3406 /* SpendiTracker */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				EE3611842EC32CF900C7834F /* Exceptions for "SpendiTracker" folder in "SpendiTracker" target */,
+			);
 			path = SpendiTracker;
 			sourceTree = "<group>";
 		};
@@ -52,6 +85,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE9254442EC2F861006ECDEB /* LeapChucker in Frameworks */,
+				EED9F90F2D71A27B000D3406 /* Alamofire in Frameworks */,
+				EEB8D8D52EC3003C007FBC3D /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EED9F9D42D7220C6000D3406 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,6 +139,7 @@
 				EED9F8D22D71A06F000D3406 /* Sources */,
 				EED9F8D32D71A06F000D3406 /* Frameworks */,
 				EED9F8D42D71A06F000D3406 /* Resources */,
+				EE36117B2EC310B100C7834F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -112,6 +150,9 @@
 			);
 			name = SpendiTracker;
 			packageProductDependencies = (
+				EED9F90E2D71A27B000D3406 /* Alamofire */,
+				EE9254432EC2F861006ECDEB /* LeapChucker */,
+				EEB8D8D42EC3003C007FBC3D /* Lottie */,
 			);
 			productName = SpendiTracker;
 			productReference = EED9F8D62D71A06F000D3406 /* SpendiTracker.app */;
@@ -135,6 +176,7 @@
 			);
 			name = SpendiTrackerTests;
 			packageProductDependencies = (
+				EED9F9D32D7220C6000D3406 /* Alamofire */,
 			);
 			productName = SpendiTrackerTests;
 			productReference = EED9F8E62D71A071000D3406 /* SpendiTrackerTests.xctest */;
@@ -195,6 +237,11 @@
 			);
 			mainGroup = EED9F8CD2D71A06F000D3406;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				EED9F90D2D71A27B000D3406 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				EE9254422EC2F861006ECDEB /* XCRemoteSwiftPackageReference "LeapChucker" */,
+				EEB8D8D32EC3003C007FBC3D /* XCRemoteSwiftPackageReference "lottie-ios" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = EED9F8D72D71A06F000D3406 /* Products */;
 			projectDirPath = "";
@@ -391,14 +438,18 @@
 		EED9F8FB2D71A071000D3406 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APP_KEYCHAIN = com.irfan.spendiTracker.dev;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SpendiTracker/SpendiTracker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SpendiTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = 3P8PQZ7GZK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SpendiTracker/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -411,6 +462,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.irfan.spendiTracker.SpendiTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SCHEME_NAME = dev;
+				SERVER_URL = "http://127.0.0.1:8080";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -420,14 +473,18 @@
 		EED9F8FC2D71A071000D3406 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APP_KEYCHAIN = com.irfan.spendiTracker;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SpendiTracker/SpendiTracker.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SpendiTracker/Preview Content\"";
 				DEVELOPMENT_TEAM = 3P8PQZ7GZK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SpendiTracker/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -440,6 +497,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.irfan.spendiTracker.SpendiTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SCHEME_NAME = release;
+				SERVER_URL = "http://127.0.0.1:8080";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -558,6 +617,56 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		EE9254422EC2F861006ECDEB /* XCRemoteSwiftPackageReference "LeapChucker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Anush01/LeapChucker";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		EEB8D8D32EC3003C007FBC3D /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.2;
+			};
+		};
+		EED9F90D2D71A27B000D3406 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		EE9254432EC2F861006ECDEB /* LeapChucker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EE9254422EC2F861006ECDEB /* XCRemoteSwiftPackageReference "LeapChucker" */;
+			productName = LeapChucker;
+		};
+		EEB8D8D42EC3003C007FBC3D /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EEB8D8D32EC3003C007FBC3D /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+		EED9F90E2D71A27B000D3406 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EED9F90D2D71A27B000D3406 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		EED9F9D32D7220C6000D3406 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EED9F90D2D71A27B000D3406 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = EED9F8CE2D71A06F000D3406 /* Project object */;
 }

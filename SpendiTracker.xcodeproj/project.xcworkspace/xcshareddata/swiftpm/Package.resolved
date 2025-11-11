@@ -1,0 +1,33 @@
+{
+  "originHash" : "0568270791f7f86638067f38d1afd1d82a3ec2911727484507ce4f4ac42d6e38",
+  "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire",
+      "state" : {
+        "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
+        "version" : "5.10.2"
+      }
+    },
+    {
+      "identity" : "leapchucker",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Anush01/LeapChucker",
+      "state" : {
+        "branch" : "main",
+        "revision" : "918244a069359cab58e939db3175d476c66cfbe2"
+      }
+    },
+    {
+      "identity" : "lottie-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/airbnb/lottie-ios",
+      "state" : {
+        "revision" : "a004050748dc197c56256a14dca49a035d74726c",
+        "version" : "4.5.2"
+      }
+    }
+  ],
+  "version" : 3
+}

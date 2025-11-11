@@ -6,12 +6,20 @@
 //
 
 import SwiftUI
-
+import Combine
+import LeapChucker
 @main
 struct SpendiTrackerApp: App {
+    init() {
+            // Enable LeapChucker logging
+            LeapChuckerApp.setup()
+    }
+    @State var router = Router()
+    @State var toastManager = ToastManager()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(router: router)
+                            .environment(toastManager)
         }
     }
 }
