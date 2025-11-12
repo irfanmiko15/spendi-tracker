@@ -7,6 +7,7 @@
 
 import Foundation
 struct ErrorResponse: Codable,Error {
-    let error: Bool
-    let reason: String
+    let error: Bool?
+    let reason: String?
+    let errorCode: String?
 }

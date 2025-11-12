@@ -21,6 +21,7 @@ struct RegisterView: View {
     @State var showPassword = false
     @State var showConfirmationPassword = false
     @State var registerViewModel:RegisterViewModel = RegisterViewModel()
+    @Bindable var toastManager: ToastManager
     var body: some View {
         ScrollView {
             VStack(alignment: .center) {
@@ -29,13 +30,13 @@ struct RegisterView: View {
                     Text("Sign up").font(.title2).fontWeight(.bold)
                     Spacer()
                         .frame(height: 10)
-
+                    
                     HStack{
                         Text("Creaate your account to start your journey").font(.system(.subheadline)).foregroundColor(.gray)
                         Spacer()
                     }
                 }.padding(.horizontal)
-
+                
                 
                 Spacer()
                     .frame(height: 30)
@@ -47,7 +48,7 @@ struct RegisterView: View {
                             .fixedSize(horizontal: false, vertical: true)
                             .font(.caption).foregroundColor(Color.red).padding(.horizontal)
                     }
-                   
+                    
                     
                     VStack(alignment:.leading){
                         DefaultTextField(value: $registerViewModel.lastName, label: $lastNameLabel, hint: $firstNameHint).padding(.horizontal)
@@ -55,7 +56,7 @@ struct RegisterView: View {
                             .fixedSize(horizontal: false, vertical: true)
                             .font(.caption).foregroundColor(Color.red).padding(.horizontal)
                     }
-                   
+                    
                     VStack(alignment:.leading) {
                         DefaultTextField(value: $registerViewModel.email, label: $emailLabel, hint: $emailHint).padding(.horizontal)
                         Text(registerViewModel.emailPrompt)
@@ -68,7 +69,7 @@ struct RegisterView: View {
                             .fixedSize(horizontal: false, vertical: true)
                             .font(.caption).foregroundColor(Color.red).padding(.horizontal)
                     }
-                   
+                    
                     VStack(alignment:.leading) {
                         PasswordTextField(value: $registerViewModel.confirmPw, label: $confirmationPasswordLabel, hint: $confirmationPasswordHint,showPassword: $showConfirmationPassword).padding(.horizontal)
                         Text(registerViewModel.confirmPwPrompt)
@@ -81,27 +82,18 @@ struct RegisterView: View {
                 Spacer()
                     .frame(height: 20)
                 if(registerViewModel.email != "" && registerViewModel.password != "" && registerViewModel.firstName != "" && registerViewModel.lastName != "" && registerViewModel.confirmPw != ""){
-                    
-                    if(registerViewModel.states == .loading){
+                    switch(registerViewModel.loadingState){
+                    case .loading :
                         ProgressView().progressViewStyle(.circular)
-                        
-                    }
-                    else{
-                        Button("Sign Up"){
+                    default :
+                        Button("Register"){
                             Task{
-                                
                                 await registerViewModel.register()
-                                if registerViewModel.states == .error{
-                                    registerViewModel.showAlert = true
-                                }
+                                getRegistrationResult()
                             }
-                            
                         }.buttonStyle(PrimaryButton()).padding(.horizontal)
-                        
                     }
                 }
-                
-                
                 else{
                     Button("Sign Up"){
                         
@@ -109,12 +101,23 @@ struct RegisterView: View {
                 }
                 Spacer()
             }
-        }.alert("Error", isPresented: $registerViewModel.showAlert) {
-            Button("Close",role: .cancel, action: {registerViewModel.showAlert = false})
-        } message: {
-            Text(registerViewModel.errorMessage ?? "")
-        }.background(Color.backgroundColor)
-           
+        }.background(Color.backgroundColor).toast(toastView: Toast(message: toastManager.toast.message, show: $toastManager.toast.isShow), show: $toastManager.toast.isShow)
+        
+    }
+    
+    func getRegistrationResult (){
+        switch(registerViewModel.loadingState){
+        case .failed(let error) :
+            toastManager.toast.isShow = true
+            toastManager.toast.message = error
+        case .loaded(let _) :
+            toastManager.toast.isShow = true
+            toastManager.toast.message = "Registration success, please check your email and verify before login"
+            router.replace(with: .loginWithEmail)
+        
+        default :
+            print("registration result not failed or success")
+        }
     }
     
 }
@@ -122,7 +125,7 @@ struct RegisterView: View {
 
 struct RegisterView_Previews: PreviewProvider {
     static var previews: some View {
-        RegisterView(router: Router(), registerViewModel: RegisterViewModel())
+        RegisterView(router: Router(), registerViewModel: RegisterViewModel(),toastManager: ToastManager())
     }
 }
 

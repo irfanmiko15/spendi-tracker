@@ -13,47 +13,32 @@ import SwiftUI
 class LoginViewModel {
      var token: String?
      var loginResponse: LoginResponseModel?
-     var states: StatesEnum = .initiate
      var message: String = ""
-     var email: String = ""
+    var email: String = ""
      var password: String = ""
      var firstName: String = ""
      var lastName: String = ""
      var secret: String = ""
-     var showPromp: Bool=false
-    
+    var showPromp: Bool=false
+    var loadingState: LoadingState<LoginResponseModel> = .idle
     @MainActor
     func login(data: LoginRequestModel) async {
-        
-        
             showPromp = false
             do {
                 resetValue()
-                states = .loading
+                loadingState = .loading
                 let loginUseCase = try await LoginUseCase(repository: LoginRepositoryImpl(remoteDataSource:LoginRemoteDatasourceImpl())).execute(data: LoginRequestModel(email: data.email, password: data.password))
                 if let res = loginUseCase{
                     token = res.accessToken
                     message = "Berhasil Login"
-                    loginResponse = res
                     KeychainHelper.standard.save(res, service: Config().sharedKeychain, account: "auth")
+                    loadingState = .loaded(res)
                 }
-                
-                states = .success
-                
-                
-            } catch let error{
-                if let customError = error as? ErrorMessageEnum {
-                    switch customError{
-                    case .errorMessage(let msg):
-                        message = msg
-                        break
-                    }
-                }
-                else{
-                    message = error.localizedDescription
-                }
-                states = .error
-                
+            } catch let error as ErrorResponse{
+                loadingState = .failed(error.reason ?? "Failed to login")
+            }
+            catch let error {
+                loadingState = .failed(error.localizedDescription)
             }
         }
     
@@ -61,7 +46,7 @@ class LoginViewModel {
     
     func resetValue() {
         token = nil
-        states = .initiate
+        
         message = ""
     }
     

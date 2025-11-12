@@ -16,34 +16,22 @@ class RegisterViewModel{
     var lastName = ""
     var showPromp:Bool=false
     var showAlert = false
-    var states: StatesEnum = .initiate
-    var loginResponse: LoginResponseModel?
     var errorMessage: String?
+    var loadingState: LoadingState<Void> = .idle
     
     @MainActor
     func register()async {
         showPromp=true
         if isSignUpComplete{
             do {
-                states = .loading
+                loadingState = .loading
                 let registerUseCase: Empty = try await RegisterUseCase(repository: RegisterRepositoryImpl(remoteDataSource:RegisterRemoteDatasourceImpl())).execute(data: RegisterRequestModel( password: password, firstName:firstName, lastName: lastName, confirmPassword: confirmPw, email: email))
-                states = .success
-            } catch let error {
-                if let customError = error as? ErrorMessageEnum {
-                    switch customError{
-                    case .errorMessage(let msg):
-                        showAlert = true
-                        errorMessage = msg
-                        
-                        break
-                    }
-                }
-                else{
-                    showAlert = true
-                    errorMessage = error.localizedDescription
-                    
-                }
-                states = .error
+                loadingState = .loaded(())
+            } catch let error as ErrorResponse{
+                loadingState = .failed(error.reason ?? "Registration failed")
+            }
+            catch let error {
+                loadingState = .failed(error.localizedDescription)
             }
         }
         
@@ -139,3 +127,4 @@ class RegisterViewModel{
     }
     
 }
+

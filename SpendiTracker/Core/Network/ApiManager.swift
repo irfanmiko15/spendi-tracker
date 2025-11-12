@@ -7,11 +7,16 @@
 
 import Foundation
 import Alamofire
+import LeapChucker
 public class APIManager {
     public static let shared = APIManager()
-    
+    private let session: Session
     private let maxWaitTime = 15.0
-    
+    init(){
+        let configuration = URLSessionConfiguration.default
+        let configured = LeapChuckerLogger.shared.configureURLSessionConfiguration(configuration)
+        self.session = Session(configuration: configured)
+    }
     func callAPI<T: Decodable>(type:String?=nil, path: String, method: HTTPMethod = .get, parameters: Parameters? = nil) async throws -> T {
         let keychain = KeychainHelper.standard.read(service: Config().sharedKeychain ,account: "auth", type: LoginResponseModel.self)
         var header:HTTPHeaders? = nil
@@ -23,8 +28,7 @@ public class APIManager {
                     "Accept": "application/json"
                 ]
             }
-            // Optional: Add an else block to handle if keychain is nil but type is "auth"
-            // else { throw YourCustomError.sessionExpired }
+            
         }
         else {
             header = [
@@ -32,10 +36,9 @@ public class APIManager {
             ]
         }
         
-        print("\(BaseApi().baseUrl)\(path)")
         
         return try await withCheckedThrowingContinuation { continuation in
-            AF.request(
+            session.request(
                 URLComponents(string: "\(BaseApi().baseUrl)\(path)")!,
                 method: method,
                 parameters: parameters,
@@ -49,15 +52,14 @@ public class APIManager {
                 case let .success(decodedObject):
                     continuation.resume(returning: decodedObject)
                     
-                // Failure: Handle API errors or decoding errors
+                    // Failure: Handle API errors or decoding errors
                 case let .failure(error):
                     do {
                         // Try to parse our custom server error message
                         if let ress = response.data {
                             let result = try JSONDecoder().decode(ErrorResponse.self, from: ress)
-                            continuation.resume(throwing: ErrorMessageEnum.errorMessage(message: result.reason))
+                            continuation.resume(throwing: result)
                         } else {
-                            // If no data, use the networking error
                             continuation.resume(throwing: self.handleError(error))
                         }
                     }
@@ -96,7 +98,7 @@ public class APIManager {
             }
             return afError
         }
-
+        
         // Not an AFError: fall back to inspecting the NSError directly
         let nserror = error as NSError
         let code = nserror.code
@@ -116,102 +118,14 @@ public class APIManager {
             )
             return currentError
         }
-
+        
         return error
     }
 }
 
 // MARK: - APIManager Extension (Helper Methods)
 extension APIManager {
-    
-    func postAuthApi<T: Decodable>(path: String, parameters: Parameters? = nil) async throws -> T {
-        do {
-            // No JSONDecoder needed. 'callAPI' returns the decoded object 'T'.
-            let result: T = try await APIManager.shared.callAPI(type: "auth", path: path, method: .post, parameters: parameters)
-            print("success :", result)
-            return result
-        } catch {
-            print("error :", error)
-            throw error
-        }
+    func request<T: Decodable>(_ method: HTTPMethod, path: String, auth: Bool = false, parameters: Parameters? = nil) async throws -> T {
+        try await callAPI(type: auth ? "auth" : nil, path: path, method: method, parameters: parameters)
     }
-    
-    func postNonAuthApi<T: Decodable>(path: String, parameters: Parameters? = nil) async throws -> T {
-        do {
-            let result: T = try await APIManager.shared.callAPI(path: path, method: .post, parameters: parameters)
-            print("success :", result)
-            return result
-        } catch {
-            print("error :", error)
-            throw error
-        }
-    }
-    
-    func getAuthApi<T: Decodable>(path: String, parameters: Parameters? = nil) async throws -> T {
-        do {
-            let result: T = try await APIManager.shared.callAPI(type: "auth", path: path, method: .get, parameters: parameters)
-            print("success :", result)
-            return result
-        } catch {
-            print("error :", error)
-            throw error
-        }
-    }
-    
-    
-    func getNonAuthApi<T: Decodable>(path: String, parameters: Parameters? = nil) async throws -> T {
-        do {
-            let result: T = try await APIManager.shared.callAPI(path: path, method: .get, parameters: parameters)
-            print("success :", result)
-            return result
-        } catch {
-            print("error :", error)
-            throw error
-        }
-    }
-    
-    func deleteAuthApi<T: Decodable>(path: String, parameters: Parameters? = nil) async throws -> T {
-        do {
-            let result: T = try await APIManager.shared.callAPI(type: "auth", path: path, method: .delete, parameters: parameters)
-            print("success :", result)
-            return result
-        } catch {
-            print("error :", error)
-            throw error
-        }
-    }
-    
-    func deleteNonAuthApi<T: Decodable>(path: String, parameters: Parameters? = nil) async throws -> T {
-        do {
-            let result: T = try await APIManager.shared.callAPI(path: path, method: .delete, parameters: parameters)
-            print("success :", result)
-            return result
-        } catch {
-            print("error :", error)
-            throw error
-        }
-    }
-    
-    func putAuthApi<T: Decodable>(path: String, parameters: Parameters? = nil) async throws -> T {
-        do {
-            let result: T = try await APIManager.shared.callAPI(type: "auth", path: path, method: .put, parameters: parameters)
-            print("success :", result)
-            return result
-        } catch {
-            print("error :", error)
-            throw error
-        }
-    }
-    
-    func putNonAuthApi<T: Decodable>(path: String, parameters: Parameters? = nil) async throws -> T {
-        do {
-            let result: T = try await APIManager.shared.callAPI(path: path, method: .put, parameters: parameters)
-            print("success :", result)
-            return result
-        } catch {
-            print("error :", error)
-            throw error
-        }
-    }
-    
 }

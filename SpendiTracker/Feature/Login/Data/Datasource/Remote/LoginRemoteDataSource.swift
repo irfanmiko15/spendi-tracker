@@ -15,9 +15,8 @@ protocol LoginRemoteDatasource{
 struct LoginRemoteDatasourceImpl : LoginRemoteDatasource{
     func login(data:LoginRequestModel) async throws-> LoginResponseModel? {
         let path="/api/auth/login"
-        let res : LoginResponseModel = try await APIManager.shared.postNonAuthApi(path: path,parameters: data.toJSON())
+        let res : LoginResponseModel = try await APIManager.shared.request(.post, path: path,parameters: data.toJSON())
         return res
-
     }
 }
 

@@ -10,6 +10,7 @@ import LeapChucker
 struct ContentView: View {
     @State private var showLogger = false
     @Bindable var router: Router
+    @Bindable var toastManager: ToastManager
     @State var loginViewModel: LoginViewModel = LoginViewModel()
     @State private var dragAmount: CGPoint?
     var body: some View {
@@ -21,9 +22,9 @@ struct ContentView: View {
                         case .login:
                             LoginView(router: router)
                         case .loginWithEmail:
-                            LoginWithEmail()
+                            LoginWithEmail(router: router, toastManager: toastManager)
                         case .registration:
-                            RegisterView(router: router)
+                            RegisterView(router: router,toastManager: toastManager)
                         case .forgotPassword:
                             LoginView(router: router)
                         }

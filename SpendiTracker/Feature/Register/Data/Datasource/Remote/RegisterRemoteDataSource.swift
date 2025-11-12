@@ -15,7 +15,7 @@ protocol RegisterRemoteDatasource{
 struct RegisterRemoteDatasourceImpl:RegisterRemoteDatasource{
     func register(data: RegisterRequestModel) async throws -> Empty{
         let path = "/api/auth/register"
-        let res:Empty = try await APIManager.shared.postNonAuthApi(path: path, parameters: data.toJSON())
+        let res:Empty = try await APIManager.shared.request(.post, path: path, parameters: data.toJSON())
         return res
     }
 }

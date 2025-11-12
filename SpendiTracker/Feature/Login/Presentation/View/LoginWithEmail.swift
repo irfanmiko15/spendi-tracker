@@ -11,6 +11,8 @@ import SwiftUI
 struct LoginWithEmail: View {
     
     @State var loginViewModel:LoginViewModel = LoginViewModel()
+    @Bindable var router: Router
+    @Bindable var toastManager: ToastManager
     @State var showPassword = false
     @State var firstLabel = "Email"
     @State var firstHint = "Input your email"
@@ -52,20 +54,18 @@ struct LoginWithEmail: View {
                 
                 Spacer()
                     .frame(height: 32)
-                if(loginViewModel.email != "" && loginViewModel.password != ""){
-                    
-                    if(loginViewModel.states == .loading){
+                if (loginViewModel.email != "" && loginViewModel.password != "") {
+                    switch(loginViewModel.loadingState){
+                    case .loading :
                         ProgressView().progressViewStyle(.circular)
-                        
-                    }
-                    else{
+                    default :
                         Button("Sign In"){
                             var request = LoginRequestModel(email: loginViewModel.email, password: loginViewModel.password);
                             Task{
                                await loginViewModel.login(data: request)
+                                getLoginResult();
                             }
                         }.buttonStyle(PrimaryButton()).padding(.horizontal)
-                        
                     }
                 }
                 else{
@@ -74,10 +74,23 @@ struct LoginWithEmail: View {
                 }
                 Spacer()
             }
-        }.background(Color.backgroundColor)
+        }.background(Color.backgroundColor).toast(toastView: Toast(message: toastManager.toast.message, show: $toastManager.toast.isShow), show: $toastManager.toast.isShow)
+    }
+    
+    func getLoginResult () {
+        switch(loginViewModel.loadingState){
+        case .failed(let error) :
+            toastManager.toast.isShow = true
+            toastManager.toast.message = error
+        case .loaded(let data) :
+            print(data)
+        
+        default :
+            print("login result not failed or success")
+        }
     }
 }
 
 #Preview {
-    LoginWithEmail(loginViewModel: LoginViewModel())
+    LoginWithEmail(loginViewModel: LoginViewModel(),router: Router(), toastManager: ToastManager())
 }

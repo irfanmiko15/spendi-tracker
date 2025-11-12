@@ -15,20 +15,20 @@ struct Toast: View {
             Spacer()
                 Text(message)
             .font(.subheadline)
-                .foregroundColor(.primary)
+                .foregroundColor(.white)
                 .padding([.top,.bottom],15)
                 .padding([.leading,.trailing],20)
-                .background(Color(UIColor.secondarySystemBackground).opacity(0.8))
+                .background(Color(UIColor.black).opacity(0.7))
                 .clipShape(RoundedRectangle(cornerSize: CGSize(width: 15, height: 15)))
         }
-        .frame(width: UIScreen.main.bounds.width / 1)
+        .frame(width: UIScreen.main.bounds.width*0.9)
         .transition(AnyTransition.move(edge: .bottom).combined(with: .opacity))
         .onTapGesture {
             withAnimation {
                 self.show = false
             }
         }.onAppear(perform: {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                 withAnimation {
                     self.show = false
                 }
@@ -37,17 +37,20 @@ struct Toast: View {
     }
 }
 
-struct ToastModifier : ViewModifier {
+struct ToastModifier: ViewModifier {
     @Binding var show: Bool
     let toastView: Toast
-    
+
     func body(content: Content) -> some View {
         ZStack {
             content
             if show {
                 toastView
+                    .transition(.opacity) // 👈 Fade in/out
+                                        .zIndex(1) // ensures it's above everything else
             }
         }
+        .animation(.easeInOut(duration: 0.3), value: show)
     }
 }
 

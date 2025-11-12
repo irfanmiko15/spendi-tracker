@@ -18,8 +18,8 @@ struct SpendiTrackerApp: App {
     @State var toastManager = ToastManager()
     var body: some Scene {
         WindowGroup {
-            ContentView(router: router)
-                            .environment(toastManager)
+            ContentView(router: router,toastManager: toastManager)
+                            
         }
     }
 }
