@@ -35,20 +35,30 @@ struct LoginWithEmail: View {
                 }.padding(.horizontal)
                 Spacer().frame(height: 30)
                 VStack(alignment: .leading) {
-                    DefaultTextField(value: $loginViewModel.email, label: $firstLabel, hint: $firstHint).padding(.horizontal)
+                    DefaultTextField(value: $loginViewModel.email, label: $firstLabel, hint: $firstHint,accessibilityId: "login_email_field")
+                        
+                        .padding(.horizontal)
                     Text(loginViewModel.emailPrompt)
+                        .accessibilityIdentifier("login_email_prompt")
                         .fixedSize(horizontal: false, vertical: true)
                         .font(.caption).foregroundColor(Color.red).padding(.horizontal)
                     Spacer()
                         .frame(height: 20)
-                    PasswordTextField(value: $loginViewModel.password, label: $secondLabel, hint: $secondHint,showPassword: $showPassword).padding(.horizontal)
+                    PasswordTextField(value: $loginViewModel.password, label: $secondLabel, hint: $secondHint,showPassword: $showPassword, accessibilityId: "login_password_field")
+                        .padding(.horizontal)
                     Text(loginViewModel.passwordPrompt)
+                        .accessibilityIdentifier("login_password_prompt")
                         .fixedSize(horizontal: false, vertical: true)
                         .font(.caption).foregroundColor(Color.red).padding(.horizontal)
                     HStack() {
                         Spacer()
-                        Text("Forgot Password ?").font(.footnote).fontWeight(.semibold).foregroundStyle(Color.secondaryColor).onTapGesture {
-                        }
+                        Text("Forgot Password ?")
+                            .accessibilityIdentifier("login_forgot_password")
+                            .font(.footnote)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(Color.secondaryColor)
+                            .onTapGesture {
+                            }
                     }.padding(.horizontal)
                 }
                 
@@ -65,12 +75,18 @@ struct LoginWithEmail: View {
                                await loginViewModel.login(data: request)
                                 getLoginResult();
                             }
-                        }.buttonStyle(PrimaryButton()).padding(.horizontal)
+                        }
+                        .accessibilityIdentifier("login_signin_button")
+                        .buttonStyle(PrimaryButton())
+                        .padding(.horizontal)
                     }
                 }
                 else{
                     Button("Sign In"){
-                    }.buttonStyle(DisabledButton()).padding(.horizontal)
+                    }
+                    .accessibilityIdentifier("login_signin_button")
+                    .buttonStyle(DisabledButton())
+                    .padding(.horizontal)
                 }
                 Spacer()
             }
@@ -83,7 +99,8 @@ struct LoginWithEmail: View {
             toastManager.toast.isShow = true
             toastManager.toast.message = error
         case .loaded(let data) :
-            print(data)
+            toastManager.toast.isShow = true
+            toastManager.toast.message = "Login success"
         
         default :
             print("login result not failed or success")

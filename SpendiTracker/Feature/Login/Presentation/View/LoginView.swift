@@ -35,7 +35,7 @@ struct LoginView: View {
                 Spacer().frame(height: 40)
                 Button("Sign In"){
                     router.navigate(to: .loginWithEmail)
-                }.buttonStyle(SecondaryButton()).padding(.horizontal)
+                }.accessibilityIdentifier("login_welcome_button").buttonStyle(SecondaryButton()).padding(.horizontal)
                 HStack{
                     Spacer()
                     Text("Dont have account?").font(.system(.subheadline)).foregroundStyle(Color.white)

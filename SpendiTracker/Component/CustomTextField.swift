@@ -23,11 +23,12 @@ struct PasswordTextField:View{
     @Binding var label:String
     @Binding var hint:String
     @Binding var showPassword:Bool
+    var accessibilityId: String? = nil
     var body: some View {
         VStack(alignment: .leading) {
             Text(label).textCase(.uppercase).font(.caption)
             HStack{
-                showPassword == true ? AnyView(TextField("******",text: $value).overlay{
+                showPassword == true ? AnyView(TextField("******",text: $value).accessibilityIdentifier(accessibilityId ?? "").overlay{
                     if !value.isEmpty {
                         HStack{
                             Spacer()
@@ -41,7 +42,7 @@ struct PasswordTextField:View{
                         }
                     }
                     
-                }) : AnyView(SecureField("******",text: $value).overlay{
+                }) : AnyView(SecureField("******",text: $value).accessibilityIdentifier(accessibilityId ?? "").overlay{
                     if !value.isEmpty {
                         HStack{
                             Spacer()
@@ -70,12 +71,13 @@ struct DefaultTextField:View{
     @Binding var label:String
     @Binding var hint:String
     let textLimit = 25
+    var accessibilityId: String? = nil
     
     var body: some View {
         VStack(alignment: .leading) {
             Text(label).textCase(.uppercase).font(.caption)
             HStack{
-                TextField(hint,text: $value) .onReceive(Just(value)) { _ in limitText(textLimit) }.modifier(CustomTextFieldStyle()).overlay{
+                TextField(hint,text: $value).accessibilityIdentifier(accessibilityId ?? "")  .onReceive(Just(value)) { _ in limitText(textLimit) }.modifier(CustomTextFieldStyle()).overlay{
                     if !value.isEmpty {
                         HStack{
                             Spacer()
