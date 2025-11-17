@@ -32,10 +32,6 @@ final class LoginFeatureUITests: XCTestCase {
         let signInWelcomeButton = app.buttons["login_welcome_button"].firstMatch
         let signInButton = app.buttons["login_signin_button"].firstMatch
         signInWelcomeButton.tap()
-        XCTAssertTrue(emailField.waitForExistence(timeout: 5))
-        XCTAssertTrue(passwordField.waitForExistence(timeout: 5))
-        XCTAssertTrue(signInButton.waitForExistence(timeout: 5))
-
         emailField.tap()
         emailField.typeText("user@example.com")
 

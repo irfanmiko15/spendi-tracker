@@ -31,7 +31,7 @@ struct LoginFeatureTests {
     @Test("Password validation passes when it meets all requirements")
     func passwordValidation_valid() async throws {
         let vm = LoginViewModel()
-        vm.password = "Password1" // >=8 chars, 1 uppercase, 1 lowercase, 1 digit
+        vm.password = "Password1"
         #expect(vm.isPasswordValid() == true)
     }
 
